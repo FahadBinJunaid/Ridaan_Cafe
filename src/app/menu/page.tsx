@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import MenuItemCard from "@/components/shared/menu-item-card";
+import MenuContent from "@/components/shared/menu-content";
 import { supabase } from "@/lib/supabase/client";
 
 export const dynamic = "force-dynamic";
@@ -60,35 +60,5 @@ export default async function MenuPage() {
     );
   }
 
-  return (
-    <main className="mx-auto max-w-4xl px-4 py-8">
-      <h1 className="mb-8 text-3xl font-bold text-foreground">Full Menu</h1>
-
-      {menuCategories.map((category) => (
-        <section
-          key={category.slug}
-          id={category.slug}
-          className="mb-10 scroll-mt-20"
-        >
-          <h2 className="mb-4 border-b border-border pb-2 text-2xl font-semibold text-foreground">
-            {category.name}
-          </h2>
-          {category.items.length > 0 ? (
-            <div className="space-y-4">
-              {category.items.map((item, idx) => (
-                <MenuItemCard
-                  key={`${category.slug}-${idx}`}
-                  name={item.name}
-                  description={item.description}
-                  price={item.price}
-                />
-              ))}
-            </div>
-          ) : (
-            <p className="text-sm text-muted-foreground">No items in this category.</p>
-          )}
-        </section>
-      ))}
-    </main>
-  );
+  return <MenuContent categories={menuCategories} />;
 }
