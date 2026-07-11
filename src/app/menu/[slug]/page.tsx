@@ -2,15 +2,12 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
+import AddToCartButton from "@/components/shared/add-to-cart-button";
 
 export const dynamic = "force-dynamic";
 
 type Props = {
   params: Promise<{ slug: string }>;
-};
-
-type PageParams = {
-  slug: string;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -90,12 +87,12 @@ export default async function MenuItemPage({ params }: Props) {
             Rs. {Number(item.price).toFixed(2)}
           </p>
 
-          <button
-            type="button"
-            className="mt-4 w-full rounded-lg bg-primary px-6 py-3 text-base font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Add to Cart
-          </button>
+          <AddToCartButton
+            id={item.id}
+            name={item.name}
+            price={Number(item.price)}
+            className="w-full rounded-lg bg-primary px-6 py-3 text-base font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+          />
         </div>
       </article>
     </main>

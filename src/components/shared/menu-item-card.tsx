@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useCartStore } from "@/lib/store/cart";
 
 type MenuItemCardProps = {
   id: string;
@@ -15,6 +18,8 @@ export default function MenuItemCard({
   price,
   imageUrl,
 }: MenuItemCardProps) {
+  const addItem = useCartStore((s) => s.addItem);
+
   return (
     <Link href={`/menu/${id}`}>
       <article className="flex gap-4 rounded-lg border border-border bg-card p-4 shadow-sm transition-colors hover:bg-accent/50">
@@ -38,9 +43,22 @@ export default function MenuItemCard({
               {description}
             </p>
           </div>
-          <p className="mt-2 font-bold text-primary">
-            Rs. {price.toFixed(2)}
-          </p>
+          <div className="mt-2 flex items-center justify-between">
+            <p className="font-bold text-primary">
+              Rs. {price.toFixed(2)}
+            </p>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                addItem({ id, name, price });
+              }}
+              className="rounded-md bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+            >
+              Add to Cart
+            </button>
+          </div>
         </div>
       </article>
     </Link>
