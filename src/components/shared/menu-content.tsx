@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import MenuItemCard from "@/components/shared/menu-item-card";
 
 type MenuItem = {
+  id: string;
   name: string;
   description: string;
   price: number;
@@ -118,9 +119,10 @@ export default function MenuContent({ categories }: Props) {
               {category.name}
             </h2>
             <div className="space-y-4">
-              {category.items.map((item, idx) => (
+              {category.items.map((item) => (
                 <MenuItemCard
-                  key={`${category.slug}-${idx}`}
+                  key={item.id}
+                  id={item.id}
                   name={item.name}
                   description={item.description}
                   price={item.price}

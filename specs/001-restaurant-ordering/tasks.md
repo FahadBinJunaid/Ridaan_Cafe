@@ -123,12 +123,12 @@ the live menu page.
 **Done**: Filtering and search work on the menu page, updating the UI
 without a full page reload.
 
-- [ ] T022 [M5] Add a text search input to `src/app/menu/page.tsx` that
+- [x] T022 [M5] Add a text search input to `src/app/menu/page.tsx` that
   filters displayed menu items by matching `name` or `description`
   client-side from the already-fetched data
-- [ ] T023 [M5] Add category filter buttons/links above the menu items
+- [x] T023 [M5] Add category filter buttons/links above the menu items
   that toggle a selected category and show only matching items
-- [ ] T024 [M5] Combine search + category filter so both can be active
+- [x] T024 [M5] Combine search + category filter so both can be active
   simultaneously; verify zero console errors
 
 ---
@@ -141,13 +141,13 @@ params pattern.
 **Done**: Detail view shows correct data per item; add-to-cart works
 from it.
 
-- [ ] T025 [M6] Create `src/app/menu/[slug]/page.tsx` with
+- [x] T025 [M6] Create `src/app/menu/[slug]/page.tsx` with
   `params: Promise<{ slug: string }>` — await params, fetch single
   `menu_items` row by id, render name/description/price/image and
   "Add to Cart" button
-- [ ] T026 [M6] Generate search-engine-friendly slugs or use item UUID
+- [x] T026 [M6] Generate search-engine-friendly slugs or use item UUID
   as the route param; wire up navigation from `menu-item-card.tsx`
-- [ ] T027 [M6] Verify dynamic route works on production build: test
+- [x] T027 [M6] Verify dynamic route works on production build: test
   `next build && next start` with a real item URL
 
 ---

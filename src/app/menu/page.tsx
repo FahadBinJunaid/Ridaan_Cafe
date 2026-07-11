@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 };
 
 type MenuItem = {
+  id: string;
   name: string;
   description: string;
   price: number;
@@ -30,7 +31,7 @@ export default async function MenuPage() {
 
   const { data: menuItems } = await supabase
     .from("menu_items")
-    .select("category_id, name, description, price")
+    .select("id, category_id, name, description, price")
     .eq("is_available", true);
 
   const categoryMap = new Map<string, MenuCategory>();
@@ -43,6 +44,7 @@ export default async function MenuPage() {
   }
   for (const item of menuItems ?? []) {
     categoryMap.get(item.category_id)?.items.push({
+      id: item.id,
       name: item.name,
       description: item.description,
       price: item.price,
