@@ -2,15 +2,17 @@
 
 CREATE OR REPLACE FUNCTION public.is_staff()
 RETURNS boolean
-LANGUAGE sql
+LANGUAGE plpgsql
 STABLE
 SECURITY DEFINER
 AS $$
-  SELECT EXISTS (
+BEGIN
+  RETURN EXISTS (
     SELECT 1 FROM public.profiles
     WHERE id = auth.uid()
     AND role IN ('staff', 'admin')
   );
+END;
 $$;
 
 CREATE TABLE IF NOT EXISTS public.categories (

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import MenuItemCard from "@/components/shared/menu-item-card";
 import { supabase } from "@/lib/supabase/client";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Full Menu",
   description:

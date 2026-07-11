@@ -3,6 +3,8 @@ import HeroSection from "@/components/shared/hero-section";
 import CategoryTiles from "@/components/shared/category-tiles";
 import { supabase } from "@/lib/supabase/client";
 
+export const dynamic = "force-dynamic";
+
 type Category = {
   name: string;
   slug: string;
