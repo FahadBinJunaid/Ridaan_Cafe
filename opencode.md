@@ -208,3 +208,46 @@ Wait for consent; never auto-create ADRs. Group related decisions (stacks, authe
 
 ## Code Standards
 See `.specify/memory/constitution.md` for code quality, testing, performance, security, and architecture principles.
+
+## Project Context
+
+- **Project:** Rindaan Cafe & Cuisine — Pakistani Dhaba-style restaurant ordering website
+- **Tech Stack:** Next.js 16 (App Router), TypeScript, Tailwind CSS, shadcn/ui, Framer Motion, React Hook Form + Zod, Supabase (DB/Auth/Storage/Realtime), Cloudinary (images), Zustand (cart state only), Vercel (hosting)
+- **No other infra/tools:** No payment gateway, no error-tracking/analytics service, no WhatsApp integration in v1
+- **Folder structure:**
+  ```
+  ├── .git/
+  ├── .opencode/
+  ├── .specify/
+  ├── public/
+  ├── src/
+  │   ├── app/
+  │   │   ├── favicon.ico
+  │   │   ├── globals.css
+  │   │   ├── layout.tsx
+  │   │   └── page.tsx
+  │   ├── components/
+  │   │   └── ui/
+  │   │       ├── badge.tsx
+  │   │       ├── button.tsx
+  │   │       ├── card.tsx
+  │   │       ├── dialog.tsx
+  │   │       ├── input.tsx
+  │   │       ├── label.tsx
+  │   │       ├── tabs.tsx
+  │   │       └── textarea.tsx
+  │   └── lib/
+  │       └── utils.ts
+  ├── .env.local
+  ├── .gitignore
+  ├── AGENTS.md
+  ├── eslint.config.mjs
+  ├── next-env.d.ts
+  ├── next.config.ts
+  ├── opencode.md
+  ├── package.json
+  ├── postcss.config.mjs
+  ├── tsconfig.json
+  └── README.md
+  ```
+- **Note:** This section is a living summary; the authoritative source of truth for architecture and requirements is `specs/<feature>/spec.md` and `plan.md`, generated via /sp.specify and /sp.plan.
