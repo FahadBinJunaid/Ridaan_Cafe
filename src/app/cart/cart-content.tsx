@@ -30,29 +30,25 @@ export default function CartContent() {
       customer_phone: "",
       delivery_address: "",
       notes: "",
-      items: [],
     },
   });
 
   const onSubmit = useCallback(
     async (data: CheckoutFormData) => {
       if (isSubmitting) return;
+      if (items.length === 0) {
+        setServerError("Your cart is empty.");
+        return;
+      }
       setIsSubmitting(true);
       setServerError(null);
-
-      data.items = items.map((i) => ({
-        id: i.id,
-        name: i.name,
-        price: i.price,
-        quantity: i.quantity,
-      }));
 
       const formData = new FormData();
       formData.append("customer_name", data.customer_name);
       formData.append("customer_phone", data.customer_phone);
       formData.append("delivery_address", data.delivery_address);
       if (data.notes) formData.append("notes", data.notes);
-      data.items.forEach((item, idx) => {
+      items.forEach((item, idx) => {
         formData.append(`items[${idx}].id`, item.id);
         formData.append(`items[${idx}].name`, item.name);
         formData.append(`items[${idx}].price`, String(item.price));

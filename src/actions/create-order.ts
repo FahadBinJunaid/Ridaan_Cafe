@@ -1,7 +1,8 @@
 "use server";
 
+import { z } from "zod";
 import { createServiceClient } from "@/lib/supabase/server";
-import { checkoutSchema } from "@/lib/schemas/checkout";
+import { checkoutSchema, checkoutItemSchema } from "@/lib/schemas/checkout";
 
 const REF_PREFIX = "RDC-";
 const REF_LENGTH = 8;
@@ -43,7 +44,14 @@ export async function createOrder(
         raw[key] = value;
       }
     }
-    raw.items = formItems.filter(Boolean);
+    const rawItems = formItems.filter(Boolean);
+    const itemsResult = z.array(checkoutItemSchema).min(1, "Cart is empty").safeParse(rawItems);
+    if (!itemsResult.success) {
+      return {
+        success: false,
+        error: itemsResult.error.issues.map((e) => e.message).join("; "),
+      };
+    }
 
     const parsed = checkoutSchema.safeParse(raw);
     if (!parsed.success) {
@@ -53,8 +61,9 @@ export async function createOrder(
       };
     }
 
-    const { customer_name, customer_phone, delivery_address, notes, items } =
+    const { customer_name, customer_phone, delivery_address, notes } =
       parsed.data;
+    const items = itemsResult.data;
 
     const lastOrder = rateLimitMap.get(customer_phone);
     if (lastOrder && Date.now() - lastOrder < RATE_LIMIT_MS) {

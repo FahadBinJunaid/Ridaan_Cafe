@@ -15,7 +15,6 @@ export const checkoutSchema = z.object({
     .max(20),
   delivery_address: z.string().min(1, "Address is required").max(500),
   notes: z.string().max(500).optional().or(z.literal("")),
-  items: z.array(checkoutItemSchema).min(1, "Cart is empty"),
 });
 
 export type CheckoutFormData = z.infer<typeof checkoutSchema>;

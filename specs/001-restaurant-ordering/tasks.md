@@ -208,15 +208,15 @@ protecting `/admin` routes.
 
 **Done**: Unauthenticated users cannot reach any `/admin` route.
 
-- [ ] T037 [P] [M9] Create `src/app/(admin)/admin/login/page.tsx` —
+- [x] T037 [P] [M9] Create `src/app/(admin)/admin/login/page.tsx` —
   email/password login form using Supabase Auth
-- [ ] T038 [M9] Create `src/middleware.ts` — check for authenticated
+- [x] T038 [M9] Create `src/proxy.ts` — check for authenticated
   session and valid `profiles.role` on all `/admin` routes; redirect
   to `/admin/login` if missing
-- [ ] T039 [M9] Create `src/app/(admin)/admin/layout.tsx` — admin
+- [x] T039 [M9] Create `src/app/(admin)/admin/layout.tsx` — admin
   layout with sidebar navigation (Dashboard, Menu, Orders, Reports),
   user info, logout button
-- [ ] T040 [M9] Create `src/app/(admin)/admin/page.tsx` — admin
+- [x] T040 [M9] Create `src/app/(admin)/admin/page.tsx` — admin
   dashboard placeholder (will become the order list in M11)
 - [ ] T041 [M9] Create a staff user in Supabase Auth and matching
   `profiles` row (`role = 'staff'`); verify that logging in grants
@@ -232,19 +232,19 @@ protecting `/admin` routes.
 appears (or disappears, if unavailable) on the public menu immediately
 without a deployment.
 
-- [ ] T042 [P] [M10] Create `src/lib/schemas/category.ts` and
+- [x] T042 [P] [M10] Create `src/lib/schemas/category.ts` and
   `src/lib/schemas/menu-item.ts` — Zod schemas for category and menu
   item create/update validation
-- [ ] T043 [M10] Create `src/actions/manage-category.ts` — server
+- [x] T043 [M10] Create `src/actions/manage-category.ts` — server
   actions for create, update, delete with orphan protection (block
   deletion if items exist); staff-only auth
-- [ ] T044 [M10] Create `src/actions/manage-menu-item.ts` — server
+- [x] T044 [M10] Create `src/actions/manage-menu-item.ts` — server
   actions for create, update, delete, toggle-availability; staff-only
   auth
-- [ ] T045 [P] [M10] Create `src/actions/get-cloudinary-signature.ts` —
+- [x] T045 [P] [M10] Create `src/actions/get-cloudinary-signature.ts` —
   server action generating signed upload params using
   `CLOUDINARY_API_SECRET`; staff-only auth
-- [ ] T046 [M10] Create `src/app/(admin)/admin/menu/page.tsx` —
+- [x] T046 [M10] Create `src/app/(admin)/admin/menu/page.tsx` —
   admin menu management UI: category list (add/edit/delete with orphan
   check), menu item list per category (add/edit/delete/toggle), image
   upload widget that calls get-cloudinary-signature then uploads
@@ -264,22 +264,22 @@ receipt printing, and Realtime new-order alerts.
 pagination works past 20 orders; newly placed order appears with
 alert without manual refresh.
 
-- [ ] T048 [P] [M11] Create `src/actions/update-order-status.ts` —
+- [x] T048 [P] [M11] Create `src/actions/update-order-status.ts` —
   server action validating legal state transition per data-model.md
   state machine; staff-only auth
-- [ ] T049 [M11] Build order list in
+- [x] T049 [M11] Build order list in
   `src/app/(admin)/admin/page.tsx`: fetch orders newest-first with
   server-side pagination (20 per page), rendered in a table with
   customer name, phone, status, total, created_at
-- [ ] T050 [M11] Add server-side search by `customer_name` or
+- [x] T050 [M11] Add server-side search by `customer_name` or
   `customer_phone` to the order list query
-- [ ] T051 [M11] Add status transition controls (dropdown/buttons) to
+- [x] T051 [M11] Add status transition controls (dropdown/buttons) to
   each order row calling `update-order-status`; refresh list on update
-- [ ] T052 [M11] Wire Supabase Realtime subscription on `orders` table
+- [x] T052 [M11] Wire Supabase Realtime subscription on `orders` table
   INSERT events: add new orders to the top of the list, show a toast
   notification, play an audio alert (audio unlocked after first user
   click on the page)
-- [ ] T053 [M11] Create `src/app/(admin)/admin/orders/[id]/page.tsx`
+- [x] T053 [M11] Create `src/app/(admin)/admin/orders/[id]/page.tsx`
   with `params: Promise<{ id: string }>` — single order detail with
   item list, status controls, and receipt print button reusing
   `receipt.tsx`
