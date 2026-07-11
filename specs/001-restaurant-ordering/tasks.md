@@ -159,12 +159,12 @@ from it.
 **Done**: Cart state correctly persists across navigation during the
 session.
 
-- [ ] T028 [P] [M7] Create `src/lib/store/cart.ts` — Zustand store with
+- [x] T028 [P] [M7] Create `src/lib/store/cart.ts` — Zustand store with
   actions: `addItem`, `removeItem`, `updateQuantity`, `clearCart`, and
   computed `subtotal`
-- [ ] T029 [M7] Create `src/app/cart/page.tsx` — cart review page
+- [x] T029 [M7] Create `src/app/cart/page.tsx` — cart review page
   showing item list, quantity controls, remove button, and subtotal
-- [ ] T030 [M7] Wire "Add to Cart" button in detail view
+- [x] T030 [M7] Wire "Add to Cart" button in detail view
   (`src/app/menu/[slug]/page.tsx`) and menu-item cards to the Zustand
   store; add a cart badge/indicator in the site header
 
@@ -179,23 +179,23 @@ rows, shows confirmation with printable receipt.
 submissions are blocked; receipt shows correct details and can be
 printed.
 
-- [ ] T031 [P] [M8] Create `src/lib/schemas/checkout.ts` — Zod schema
+- [x] T031 [P] [M8] Create `src/lib/schemas/checkout.ts` — Zod schema
   for `customer_name`, `customer_phone`, `delivery_address`,
   `notes?`, and `items` array (shared between client and server)
-- [ ] T032 [M8] Create `src/actions/create-order.ts` — server action:
+- [x] T032 [M8] Create `src/actions/create-order.ts` — server action:
   validate with checkoutSchema, generate `RDC-XXXXXXXX` reference
   number, compute `total_amount`, rate-limit check (60s per phone),
   insert orders + order_items rows, return `{ reference_number }`
-- [ ] T033 [M8] Create `src/lib/supabase/server.ts` — server client
+- [x] T033 [M8] Create `src/lib/supabase/server.ts` — server client
   using `SUPABASE_SERVICE_ROLE_KEY` for admin write operations
-- [ ] T034 [M8] Build checkout form in `src/app/cart/page.tsx` using
+- [x] T034 [M8] Build checkout form in `src/app/cart/page.tsx` using
   React Hook Form with shared checkoutSchema; customer name, phone,
   delivery address, optional notes fields; submit button disabled
   after first click to prevent duplicates
-- [ ] T035 [M8] Create `src/components/shared/receipt.tsx` — reusable
+- [x] T035 [M8] Create `src/components/shared/receipt.tsx` — reusable
   receipt component showing order reference, itemised list, total, and
   a "Print" button using `window.print()`
-- [ ] T036 [M8] Create `src/app/order/confirmation/[reference]/page.tsx`
+- [x] T036 [M8] Create `src/app/order/confirmation/[reference]/page.tsx`
   with `params: Promise<{ reference: string }>` — fetch order +
   order_items by reference_number, render receipt, enable print
 
