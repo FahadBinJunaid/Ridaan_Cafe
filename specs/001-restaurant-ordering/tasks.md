@@ -294,11 +294,11 @@ excluded).
 **Done**: Reports numbers match a manual count/sum of actual orders in
 the database for each period.
 
-- [ ] T054 [M12] Create `src/actions/get-reports.ts` — server action
+- [x] T054 [M12] Create `src/actions/get-reports.ts` — server action
   querying aggregate order counts and `SUM(total_amount)` for today,
   this week (ISO week), this month, and this year; filter out
   `order_status = 'cancelled'`
-- [ ] T055 [M12] Create `src/app/(admin)/admin/reports/page.tsx` —
+- [x] T055 [M12] Create `src/app/(admin)/admin/reports/page.tsx` —
   reports page displaying four period cards (Today, This Week, This
   Month, This Year) each showing order count and total revenue
 - [ ] T056 [M12] Manually verify against database: insert a test order,

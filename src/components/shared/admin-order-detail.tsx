@@ -98,12 +98,13 @@ export default function AdminOrderDetail({
             </h1>
             <p className="text-sm text-muted-foreground">
               Placed on{" "}
-              {new Date(order.created_at).toLocaleString("en-IN", {
-                day: "numeric",
+              {new Date(order.created_at).toLocaleString("en-GB", {
+                day: "2-digit",
                 month: "long",
                 year: "numeric",
                 hour: "2-digit",
                 minute: "2-digit",
+                hour12: false,
               })}
             </p>
           </div>

@@ -34,7 +34,7 @@ export default async function AdminOrderDetailPage({
 
   const { data: order, error: orderError } = await supabase
     .from("orders")
-    .select("*")
+    .select("id, reference_number, customer_name, customer_phone, delivery_address, notes, payment_status, order_status, total_amount, created_at")
     .eq("id", id)
     .single();
 
@@ -44,7 +44,7 @@ export default async function AdminOrderDetailPage({
 
   const { data: orderItems } = await supabase
     .from("order_items")
-    .select("*")
+    .select("id, menu_item_id, item_name_snapshot, item_price_snapshot, quantity")
     .eq("order_id", id)
     .order("item_name_snapshot", { ascending: true });
 

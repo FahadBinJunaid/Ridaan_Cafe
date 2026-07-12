@@ -81,18 +81,35 @@ export default function AdminOrderDashboard({
   const searchParams = useSearchParams();
   const [orders, setOrders] = useState<OrderRow[]>(initialOrders);
   const [audioUnlocked, setAudioUnlocked] = useState(false);
+  const audioUnlockedRef = useRef(false);
   const [toast, setToast] = useState<OrderRow | null>(null);
   const [statusMsg, setStatusMsg] = useState<{
     id: string;
     type: "success" | "error";
     text: string;
   } | null>(null);
-  const searchRef = useRef<HTMLInputElement>(null);
+  const [loadingOrderId, setLoadingOrderId] = useState<string | null>(null);
+  const [searchInput, setSearchInput] = useState(searchQuery);
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
 
   useEffect(() => {
     setOrders(initialOrders);
   }, [initialOrders]);
+
+  useEffect(() => {
+    setSearchInput(searchQuery);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    audioUnlockedRef.current = audioUnlocked;
+  }, [audioUnlocked]);
+
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     const channel = supabase
@@ -104,7 +121,7 @@ export default function AdminOrderDashboard({
           const newOrder = payload.new as OrderRow;
           setOrders((prev) => [newOrder, ...prev]);
           setToast(newOrder);
-          if (audioUnlocked) {
+          if (audioUnlockedRef.current) {
             playBeep();
           }
         },
@@ -114,7 +131,7 @@ export default function AdminOrderDashboard({
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [audioUnlocked]);
+  }, []);
 
   const unlockAudio = useCallback(() => {
     if (!audioCtxRef.current) {
@@ -125,17 +142,19 @@ export default function AdminOrderDashboard({
     });
   }, []);
 
-  function handleSearch(e: React.FormEvent) {
-    e.preventDefault();
-    const q = searchRef.current?.value || "";
-    const params = new URLSearchParams(searchParams.toString());
-    if (q) {
-      params.set("q", q);
-    } else {
-      params.delete("q");
-    }
-    params.set("page", "1");
-    router.push(`/admin?${params.toString()}`);
+  function handleSearchChange(value: string) {
+    setSearchInput(value);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (value) {
+        params.set("q", value);
+      } else {
+        params.delete("q");
+      }
+      params.set("page", "1");
+      router.push(`/admin?${params.toString()}`);
+    }, 300);
   }
 
   function goToPage(page: number) {
@@ -145,6 +164,7 @@ export default function AdminOrderDashboard({
   }
 
   async function handleStatusChange(orderId: string, newStatus: string) {
+    setLoadingOrderId(orderId);
     const fd = new FormData();
     fd.set("orderId", orderId);
     fd.set("orderStatus", newStatus);
@@ -164,6 +184,7 @@ export default function AdminOrderDashboard({
         ),
       );
     }
+    setLoadingOrderId(null);
     setTimeout(() => setStatusMsg(null), 3000);
   }
 
@@ -182,32 +203,27 @@ export default function AdminOrderDashboard({
         </div>
       )}
 
-      <form onSubmit={handleSearch} className="mb-6">
-        <div className="flex gap-2">
-          <input
-            ref={searchRef}
-            type="text"
-            defaultValue={searchQuery}
-            placeholder="Search by customer name or phone..."
-            className="flex-1 rounded-lg border border-border bg-background px-4 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-          />
+      <div className="mb-6 flex gap-2">
+        <input
+          type="text"
+          value={searchInput}
+          onChange={(e) => handleSearchChange(e.target.value)}
+          placeholder="Search by customer name or phone..."
+          className="flex-1 rounded-lg border border-border bg-background px-4 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+        />
+        {searchQuery && (
           <button
-            type="submit"
-            className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+            type="button"
+            onClick={() => {
+              setSearchInput("");
+              router.push("/admin");
+            }}
+            className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground hover:bg-accent"
           >
-            Search
+            Clear
           </button>
-          {searchQuery && (
-            <button
-              type="button"
-              onClick={() => router.push("/admin")}
-              className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground hover:bg-accent"
-            >
-              Clear
-            </button>
-          )}
-        </div>
-      </form>
+        )}
+      </div>
 
       {toast && (
         <div className="mb-4 animate-pulse rounded-lg border border-green-500/50 bg-green-500/10 px-4 py-3 text-sm text-green-700">
@@ -270,12 +286,13 @@ export default function AdminOrderDashboard({
                   Rs. {Number(order.total_amount).toFixed(2)}
                 </td>
                 <td className="px-4 py-3 text-xs text-muted-foreground">
-                  {new Date(order.created_at).toLocaleDateString("en-IN", {
-                    day: "numeric",
+                  {new Date(order.created_at).toLocaleString("en-GB", {
+                    day: "2-digit",
                     month: "short",
                     year: "numeric",
                     hour: "2-digit",
                     minute: "2-digit",
+                    hour12: false,
                   })}
                 </td>
                 <td className="px-4 py-3">
@@ -292,19 +309,20 @@ export default function AdminOrderDashboard({
                   ) : NEXT_STATUSES[order.order_status]?.length > 0 ? (
                     <div className="flex flex-wrap gap-1">
                       {NEXT_STATUSES[order.order_status].map((action) => (
-                        <button
-                          key={action.value}
-                          type="button"
-                          onClick={() =>
-                            handleStatusChange(order.id, action.value)
-                          }
-                          className={`rounded px-2 py-1 text-xs font-medium ${
-                            action.value === "cancelled"
-                              ? "bg-red-100 text-red-700 hover:bg-red-200"
-                              : "bg-primary/10 text-primary hover:bg-primary/20"
-                          }`}
-                        >
-                          {action.label}
+                          <button
+                            key={action.value}
+                            type="button"
+                            disabled={loadingOrderId === order.id}
+                            onClick={() =>
+                              handleStatusChange(order.id, action.value)
+                            }
+                            className={`rounded px-2 py-1 text-xs font-medium disabled:cursor-not-allowed disabled:opacity-50 ${
+                              action.value === "cancelled"
+                                ? "bg-red-100 text-red-700 hover:bg-red-200"
+                                : "bg-primary/10 text-primary hover:bg-primary/20"
+                            }`}
+                          >
+                            {loadingOrderId === order.id ? "Updating..." : action.label}
                         </button>
                       ))}
                     </div>

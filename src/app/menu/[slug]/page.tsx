@@ -31,17 +31,11 @@ export default async function MenuItemPage({ params }: Props) {
 
   const { data: item } = await supabase
     .from("menu_items")
-    .select("id, name, description, price, image_url, category_id")
+    .select("id, name, description, price, image_url, is_available, categories(name)")
     .eq("id", slug)
     .single();
 
   if (!item) notFound();
-
-  const { data: category } = await supabase
-    .from("categories")
-    .select("name")
-    .eq("id", item.category_id)
-    .single();
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-8">
@@ -72,7 +66,7 @@ export default async function MenuItemPage({ params }: Props) {
         <div className="space-y-4">
           <div>
             <p className="text-sm text-muted-foreground">
-              {category?.name ?? "Uncategorized"}
+              {(item.categories as unknown as { name: string } | null)?.name ?? "Uncategorized"}
             </p>
             <h1 className="text-3xl font-bold text-foreground">
               {item.name}

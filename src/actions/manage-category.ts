@@ -101,7 +101,7 @@ export async function deleteCategory(formData: FormData) {
 
   const { count } = await supabase
     .from("menu_items")
-    .select("*", { count: "exact", head: true })
+    .select("id", { count: "exact", head: true })
     .eq("category_id", id);
 
   if (count && count > 0) {
@@ -122,7 +122,7 @@ export async function getCategories() {
   const supabase = await getServiceClient();
   const { data, error } = await supabase
     .from("categories")
-    .select("*")
+    .select("id, name, display_order")
     .order("display_order", { ascending: true })
     .order("name", { ascending: true });
 

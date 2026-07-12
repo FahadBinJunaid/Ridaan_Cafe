@@ -49,7 +49,14 @@ export default function Receipt({
           </p>
           <p>
             <span className="font-semibold text-foreground">Date:</span>{" "}
-            {new Date(createdAt).toLocaleString()}
+            {new Date(createdAt).toLocaleString("en-GB", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            })}
           </p>
           <p>
             <span className="font-semibold text-foreground">Status:</span>{" "}

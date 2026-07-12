@@ -146,7 +146,7 @@ export async function getMenuItemsForCategory(categoryId: string) {
   const supabase = await getServiceClient();
   const { data, error } = await supabase
     .from("menu_items")
-    .select("*")
+    .select("id, name, description, price, category_id, image_url, is_available")
     .eq("category_id", categoryId)
     .order("name", { ascending: true });
 
@@ -158,7 +158,7 @@ export async function getAllMenuItems() {
   const supabase = await getServiceClient();
   const { data, error } = await supabase
     .from("menu_items")
-    .select("*")
+    .select("id, name, description, price, category_id, image_url, is_available")
     .order("name", { ascending: true });
 
   if (error) throw new Error(error.message);

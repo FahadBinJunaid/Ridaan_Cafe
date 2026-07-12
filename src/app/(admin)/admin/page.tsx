@@ -26,7 +26,7 @@ export default async function AdminDashboardPage({
 
   let query = supabase
     .from("orders")
-    .select("*", { count: "exact" })
+    .select("id, reference_number, customer_name, customer_phone, order_status, total_amount, created_at", { count: "exact" })
     .order("created_at", { ascending: false });
 
   if (searchQuery) {

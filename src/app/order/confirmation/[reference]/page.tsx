@@ -24,7 +24,7 @@ export default async function OrderConfirmationPage({ params }: Props) {
 
   const { data: order } = await supabase
     .from("orders")
-    .select("*")
+    .select("id, reference_number, customer_name, customer_phone, delivery_address, notes, total_amount, order_status, created_at")
     .eq("reference_number", reference)
     .single();
 
@@ -32,7 +32,7 @@ export default async function OrderConfirmationPage({ params }: Props) {
 
   const { data: orderItems } = await supabase
     .from("order_items")
-    .select("*")
+    .select("item_name_snapshot, item_price_snapshot, quantity")
     .eq("order_id", order.id);
 
   return (
