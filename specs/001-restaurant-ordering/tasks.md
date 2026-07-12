@@ -315,18 +315,18 @@ custom not-found/error pages, final production deployment.
 **Done**: Site is live; structured data validates in Google's Rich
 Results test; broken URL shows custom 404 instead of framework default.
 
-- [ ] T057 [P] [M13] Add full Metadata API exports to all public pages:
+- [x] T057 [P] [M13] Add full Metadata API exports to all public pages:
   `src/app/layout.tsx` (base), `src/app/page.tsx`,
   `src/app/menu/page.tsx`, `src/app/menu/[slug]/page.tsx`,
   `src/app/cart/page.tsx`
-- [ ] T058 [P] [M13] Add Restaurant JSON-LD structured data to
+- [x] T058 [P] [M13] Add Restaurant JSON-LD structured data to
   `src/app/page.tsx` homepage using `ld+json` script tag
-- [ ] T059 [P] [M13] Create `src/app/sitemap.ts` generating sitemap.xml
+- [x] T059 [P] [M13] Create `src/app/sitemap.ts` generating sitemap.xml
   with all public page URLs (homepage, menu, all category anchors via
   Supabase query)
-- [ ] T060 [P] [M13] Audit all images across public pages for
+- [x] T060 [P] [M13] Audit all images across public pages for
   descriptive `alt` text; add Open Graph tags to layout metadata
-- [ ] T061 [P] [M13] Create `src/app/not-found.tsx` (custom 404) and
+- [x] T061 [P] [M13] Create `src/app/not-found.tsx` (custom 404) and
   `src/app/error.tsx` (custom error boundary), both styled consistently
   with the warm/wooden theme
 - [ ] T062 [M13] Final production deployment to Vercel: verify dynamic

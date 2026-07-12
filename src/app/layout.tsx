@@ -23,6 +23,14 @@ export const metadata: Metadata = {
   icons: {
     icon: "/icon.svg",
   },
+  openGraph: {
+    title: "Rindaan Cafe & Cuisine — Authentic Pakistani Dhaba",
+    description:
+      "Order authentic Pakistani Dhaba-style food from Rindaan Cafe & Cuisine in Karachi, Sindh. Freshly prepared, Cash on Delivery.",
+    type: "website",
+    locale: "en_PK",
+    siteName: "Rindaan Cafe & Cuisine",
+  },
 };
 
 export default function RootLayout({

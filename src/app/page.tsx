@@ -1,8 +1,15 @@
+import type { Metadata } from "next";
 import HeroSection from "@/components/shared/hero-section";
 import CategoryTiles from "@/components/shared/category-tiles";
 import { supabase } from "@/lib/supabase/client";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Home",
+  description:
+    "Order authentic Pakistani Dhaba-style food from Rindaan Cafe & Cuisine in Karachi, Sindh. Freshly prepared, Cash on Delivery.",
+};
 
 type Category = {
   name: string;
@@ -20,8 +27,30 @@ export default async function Home() {
     slug: c.name.toLowerCase().replace(/\s+/g, "-"),
   }));
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    name: "Rindaan Cafe & Cuisine",
+    description:
+      "Authentic Pakistani Dhaba-style food in Karachi, Sindh. Freshly prepared, Cash on Delivery.",
+    servesCuisine: "Pakistani",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "[Full address — to be provided by client]",
+      addressLocality: "Karachi",
+      addressRegion: "Sindh",
+      addressCountry: "PK",
+    },
+    telephone: "[Phone number — to be provided by client]",
+    openingHours: "[Operating hours — to be provided by client]",
+  };
+
   return (
     <main className="flex flex-1 flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <HeroSection />
 
       <CategoryTiles categories={categoryList} />
