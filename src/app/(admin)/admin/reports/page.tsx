@@ -1,4 +1,4 @@
-import { getReports, getCustomRangeReport, type PeriodReport } from "@/actions/get-reports";
+import { getReports, getCustomRangeReport, getMonthRangeReport, type PeriodReport } from "@/actions/get-reports";
 
 function formatRs(amount: number): string {
   return `Rs. ${amount.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
@@ -37,23 +37,14 @@ export default async function ReportsPage({ searchParams }: Props) {
     } else {
       customReport = await getCustomRangeReport(
         `Custom (${from} - ${to})`,
-        `${from}T00:00:00.000Z`,
-        `${to}T23:59:59.999Z`,
+        from,
+        to,
       );
     }
   } else if (month && year) {
     const monthNum = parseInt(month, 10);
     const yearNum = parseInt(year, 10);
-    const startDate = new Date(yearNum, monthNum - 1, 1);
-    startDate.setHours(0, 0, 0, 0);
-    const endDate = new Date(yearNum, monthNum, 0);
-    endDate.setHours(23, 59, 59, 999);
-    const monthLabel = MONTHS.find((m) => m.value === monthNum)?.label || `Month ${monthNum}`;
-    customReport = await getCustomRangeReport(
-      `${monthLabel} ${yearNum}`,
-      startDate.toISOString(),
-      endDate.toISOString(),
-    );
+    customReport = await getMonthRangeReport(monthNum, yearNum);
   }
 
   return (
