@@ -44,12 +44,6 @@ export default async function AdminLayout({
             Menu
           </Link>
           <Link
-            href="/admin/orders"
-            className="block rounded-md px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent"
-          >
-            Orders
-          </Link>
-          <Link
             href="/admin/reports"
             className="block rounded-md px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent"
           >

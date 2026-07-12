@@ -22,29 +22,29 @@ export default function MenuItemCard({
 
   return (
     <Link href={`/menu/${id}`}>
-      <article className="flex gap-4 rounded-lg border border-border bg-card p-4 shadow-sm transition-colors hover:bg-accent/50">
-        <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md bg-muted">
+      <article className="group flex gap-4 overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/5">
+        <div className="h-28 w-28 flex-shrink-0 overflow-hidden bg-muted sm:h-32 sm:w-32">
           {imageUrl ? (
             <img
               src={imageUrl}
               alt={`${name} — food item`}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
           ) : (
-            <div className="flex h-full w-full items-center justify-center text-3xl text-muted-foreground">
+            <div className="flex h-full w-full items-center justify-center text-4xl text-muted-foreground">
               🍽
             </div>
           )}
         </div>
-        <div className="flex flex-1 flex-col justify-between">
+        <div className="flex flex-1 flex-col justify-center py-3 pr-4">
           <div>
             <h3 className="font-semibold text-foreground">{name}</h3>
-            <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
+            <p className="mt-0.5 text-sm text-muted-foreground line-clamp-2">
               {description}
             </p>
           </div>
           <div className="mt-2 flex items-center justify-between">
-            <p className="font-bold text-primary">
+            <p className="text-lg font-bold text-primary">
               Rs. {price.toFixed(2)}
             </p>
             <button
@@ -54,7 +54,7 @@ export default function MenuItemCard({
                 e.stopPropagation();
                 addItem({ id, name, price });
               }}
-              className="rounded-md bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+              className="rounded-lg bg-primary px-4 py-1.5 text-xs font-semibold text-primary-foreground transition-all hover:bg-primary/90 active:scale-95"
             >
               Add to Cart
             </button>

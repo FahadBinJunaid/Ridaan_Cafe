@@ -12,20 +12,30 @@ export default function SiteHeader() {
         <Link href="/" className="text-xl font-bold text-primary">
           Rindaan Cafe &amp; Cuisine
         </Link>
-        <nav aria-label="Main navigation" className="flex items-center gap-4">
+        <nav aria-label="Main navigation" className="flex items-center gap-5">
           <Link
             href="/menu"
-            className="text-sm font-medium text-muted-foreground hover:text-foreground"
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
-            Full Menu
+            Menu
+          </Link>
+          <Link
+            href="/about"
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            About
           </Link>
           <Link
             href="/cart"
-            className="relative text-sm font-medium text-muted-foreground hover:text-foreground"
+            className="relative text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
             Cart
             {totalItems > 0 && (
-              <span className="absolute -right-3 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground">
+              <span
+                key={totalItems}
+                className="absolute -right-3 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground"
+                style={{ animation: "cart-bounce 350ms ease-out" }}
+              >
                 {totalItems}
               </span>
             )}
